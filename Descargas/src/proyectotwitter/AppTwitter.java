@@ -7,7 +7,7 @@ package proyectotwitter;
 
 import javax.swing.JOptionPane;
 import twitter4j.*;
-import twitter4j.conf.ConfigurationBuilder;
+import twitter4j.conf.Configuration;
 
 /**
  *
@@ -15,20 +15,12 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class AppTwitter {
 
-    public Twitter twitter;
+    TwitterFactory tf = new TwitterFactory();
+    Twitter twitter = tf.getInstance();
 
-    public void connect() {
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey("zhCddk32GjDz3YRcmWg0HhYqg")
-                .setOAuthConsumerSecret("IUv2rIZcGOb4NrOM6j6dOHZG01Nhpnop54wOnumhyYdSIsvT4V")
-                .setOAuthAccessToken("564692658-4UHWK4UtJeKwfy8d2ZnK10aCugg1ppmx32OfACsz")
-                .setOAuthAccessTokenSecret("Z7AqSEWhVFT9LyJpv3JH23unedgiRJTWSJO6uBwkq3iwA");
-        TwitterFactory tf = new TwitterFactory(cb.build());
-        twitter = tf.getInstance();
-    }
 
     public void verTimeline() {
+        
         try {
             Paging pagina = new Paging();
             pagina.setCount(40);
@@ -37,15 +29,15 @@ public class AppTwitter {
                 System.out.println(listado.get(i).toString());
             }
         } catch (TwitterException ex) {
-            System.out.println("Error al ver la linea de tiempo");
+            System.out.println("No se ve la linea de tiempo");
         }
     }
 
     public void postearTweet() {
         try {
-            twitter.updateStatus(JOptionPane.showInputDialog("Mensaje para twittear"));
+            twitter.updateStatus(JOptionPane.showInputDialog("Escribe Mensaje"));
         } catch (TwitterException ex) {
-            System.out.println("Error post");
+            System.out.println("No posteado");
         }
     }
 
@@ -57,7 +49,7 @@ public class AppTwitter {
                 System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
             }
         } catch (TwitterException ex) {
-            System.out.println("Error al buscar");
+            System.out.println("No busqueda");
         }
     }
 
